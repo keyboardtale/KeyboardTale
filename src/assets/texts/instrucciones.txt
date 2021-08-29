@@ -1,0 +1,1 @@
+Read the text silently following the other performer. Press key "7" when you come across a red letter, "8" for a yellow letter and "9" if the letter is green. Blue letter will be played by the other performer.
