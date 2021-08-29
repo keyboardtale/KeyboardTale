@@ -26,6 +26,8 @@
 .texto-negro{
     font-family: 'EB Garamond', serif;
     font-size: x-large;
+    display: flex;
+    flex-direction: column;
 }
 .texto-rojo{
     font-family: 'EB Garamond', serif;

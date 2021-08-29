@@ -1,0 +1,2 @@
+text1Valores.txt
+text2Valores.txt

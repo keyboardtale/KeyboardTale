@@ -1,0 +1,15 @@
+a_1.wav
+a_2.wav
+a_3.wav
+e_1.wav
+e_2.wav
+e_3.wav
+i_1.wav
+i_2.wav
+i_3.wav
+o_1.wav
+o_2.wav
+o_3.wav
+u_1.wav
+u_2.wav
+u_3.wav

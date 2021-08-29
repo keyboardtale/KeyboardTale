@@ -40,9 +40,10 @@ export class HomeComponent implements OnInit {
       this.setMinValues();
       this.setSounds();
       this.setSubstringValues();
+      console.log(this.audios);
       document.addEventListener( 'keydown', (event) => {
         this.processInput(event.key);
-      });
+      }, true);
     }
     );
   }
@@ -199,11 +200,18 @@ export class HomeComponent implements OnInit {
     if(this.currentSub<this.texts[this.currentText].length-1){
       this.alreadyShown+=this.texts[this.currentText][this.currentSub];
       this.currentSub++;
+      document.getElementById('pastText')!.innerHTML=this.alreadyShown;
+      document.getElementById('currentText')!.innerHTML=this.texts[this.currentText][this.currentSub];
     }else if(this.currentText<this.texts.length-1){
       this.currentText++;
       this.currentSub=0;
+      this.alreadyShown = '';
+      document.getElementById('pastText')!.innerHTML = '';
+      document.getElementById('currentText')!.innerHTML = this.texts[this.currentText][this.currentSub];
     }else{
-      //something something
+      console.log('GAME OVER');
+      this.alreadyShown = 'GAME OVER';
+      document.removeEventListener('keydown', () => {} , true);
     }
   }
 
