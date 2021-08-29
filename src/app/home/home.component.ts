@@ -191,8 +191,8 @@ export class HomeComponent implements OnInit {
       ret=this.substringScore[this.currentText][this.currentSub][index]>=this.minValues[this.currentText][this.currentSub][index];
       index++;
     }
-    console.log(this.substringScore[this.currentText][this.currentSub]);
-    console.log(this.minValues[this.currentText][this.currentSub]);
+    console.log('puntaje: ',this.substringScore[this.currentText][this.currentSub]);
+    console.log('minimos: ',this.minValues[this.currentText][this.currentSub]);
     if (ret) this.nextSub();
   }
 
