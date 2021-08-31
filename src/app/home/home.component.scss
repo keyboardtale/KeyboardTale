@@ -1,36 +1,24 @@
 .content-container{
     width: 100%;
-    height: 100%;
     display:flex;
     flex-direction: column;
     align-items: center;
-    background: lightgreen;
-    
 }
 .instrucciones-container{
-    max-width: 70%;
-    max-height: 10%;
-    background:red;
-
+    max-width: 80%;
 }
 .instrucciones{
     font-family: 'EB Garamond', serif;
     font-size: x-large;
+    padding: 1em;
 }
 .texto-container{
-    width: 70%;
+    width: 80%;
     height: 100%;
-    background: grey;
     text-align: justify;
 }
 .texto-negro{
     font-family: 'EB Garamond', serif;
     font-size: x-large;
-    display: flex;
-    flex-direction: column;
-}
-.texto-rojo{
-    font-family: 'EB Garamond', serif;
-    font-size: x-large;
-    color:red;
+    padding: 1em;
 }

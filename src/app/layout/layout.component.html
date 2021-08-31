@@ -1,10 +1,12 @@
-<body style="height:1000px; background: green;">
-    <div>
+<div style="height:100% !important; display: flex; align-items: center; flex-direction: column; overflow-y: scroll;">
+    <div style="width:80%;">
         <app-header></app-header>
     </div>
     <div class="container">
         <app-home>
         </app-home>
+        <div style="width: 80%; align-self: center;">
+            <app-footer></app-footer>
+        </div>
     </div>
-    <app-footer style="align-self: flex-end; width: 100%"></app-footer>
-</body>
+</div>

@@ -32,8 +32,8 @@ export class HomeComponent implements OnInit {
     this.minValues=[];
   }
 
-  ngOnInit(){
-    this.fetchTexts().then( () =>
+  async ngOnInit(){
+    await this.fetchTexts().then( () =>
       this.fetchSound()
     ).then( () => {
       this.initializeMatrixes();
@@ -44,8 +44,8 @@ export class HomeComponent implements OnInit {
       document.addEventListener( 'keydown', (event) => {
         this.processInput(event.key);
       }, true);
-    }
-    );
+    });
+    document.getElementById('pastText')!.innerHTML='<span style="color:#63B5D1">'+this.texts[this.currentText][this.currentSub]+'</span>';
   }
   
   
@@ -53,12 +53,16 @@ export class HomeComponent implements OnInit {
     for(let t = 0; t<this.texts.length; t++){
       for(let s = 0; s<this.texts[t].length; s++){
         for(let i:number=0; i<this.texts[t][s].length; i++){
-          if (65<=this.texts[t][s].charCodeAt(i) && this.texts[t][s].charCodeAt(i)<=90){ // mayusculas
-            this.substringValue[t][s][this.texts[t][s].charCodeAt(i)-55]+=1;
+          let newText = this.texts[t][s];
+          const splitted = this.texts[t][s].split('<br>');
+          if (splitted.length > 1) newText=splitted[1];
+          console.log(newText);
+          if (65<=newText.charCodeAt(i) && newText.charCodeAt(i)<=90){ // mayusculas
+            this.substringValue[t][s][newText.charCodeAt(i)-55]+=1;
           }else if (97<=this.texts[t][s].charCodeAt(i) && this.texts[t][s].charCodeAt(i)<=122){ // minusculas
-            this.substringValue[t][s][this.texts[t][s].charCodeAt(i)-87]+=1;
+            this.substringValue[t][s][newText.charCodeAt(i)-87]+=1;
           }else if (48<=this.texts[t][s].charCodeAt(i) && this.texts[t][s].charCodeAt(i)<=57){ // numeros
-            this.substringValue[t][s][this.texts[t][s].charCodeAt(i)-48]+=1;
+            this.substringValue[t][s][newText.charCodeAt(i)-48]+=1;
           }
         }
       }
@@ -99,6 +103,7 @@ export class HomeComponent implements OnInit {
   textToValues(value: string): number[] {
     let valuesArray: number[] = [];
     value.split(/\[|\]/)[1].split(',').forEach(value => valuesArray.push(+value));
+    
     return valuesArray;
   }
 
@@ -119,8 +124,8 @@ export class HomeComponent implements OnInit {
 
   textToFrases(text: string): string[]{
     let ret: string[] = [];
-    text.split(/\|\|\|/).forEach(frase => {
-      ret.push(frase);
+    text.split(/\|\|\|/).forEach(frase => {    
+        ret.push(frase);
     });
     return ret;
   }
@@ -200,19 +205,20 @@ export class HomeComponent implements OnInit {
     if(this.currentSub<this.texts[this.currentText].length-1){
       this.alreadyShown+=this.texts[this.currentText][this.currentSub];
       this.currentSub++;
-      document.getElementById('pastText')!.innerHTML=this.alreadyShown;
-      document.getElementById('currentText')!.innerHTML=this.texts[this.currentText][this.currentSub];
-    }else if(this.currentText<this.texts.length-1){
-      this.currentText++;
-      this.currentSub=0;
-      this.alreadyShown = '';
-      document.getElementById('pastText')!.innerHTML = '';
-      document.getElementById('currentText')!.innerHTML = this.texts[this.currentText][this.currentSub];
-    }else{
-      console.log('GAME OVER');
-      this.alreadyShown = 'GAME OVER';
-      document.removeEventListener('keydown', () => {} , true);
+      document.getElementById('pastText')!.innerHTML='<span style="line-height: 1.5">'+this.alreadyShown+'</span>' + '<span style="color:#0080ff;">'+this.texts[this.currentText][this.currentSub]+'</span>';
+      // document.getElementById('currentText')!.innerHTML=this.texts[this.currentText][this.currentSub];
     }
+    // else if(this.currentText<this.texts.length-1){
+    //   this.currentText++;
+    //   this.currentSub=0;
+    //   this.alreadyShown = '';
+    //   document.getElementById('pastText')!.innerHTML = '';
+    //   document.getElementById('currentText')!.innerHTML = this.texts[this.currentText][this.currentSub];
+    // }else{
+    //   console.log('GAME OVER');
+    //   this.alreadyShown = 'GAME OVER';
+    //   document.removeEventListener('keydown', () => {} , true);
+    // }
   }
 
   // determineColor(text: string): string{
