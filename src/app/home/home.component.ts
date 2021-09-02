@@ -205,7 +205,7 @@ export class HomeComponent implements OnInit {
     if(this.currentSub<this.texts[this.currentText].length-1){
       this.alreadyShown+=this.texts[this.currentText][this.currentSub];
       this.currentSub++;
-      document.getElementById('pastText')!.innerHTML='<span style="line-height: 1.5">'+this.alreadyShown+'</span>' + '<span style="color:#0080ff;">'+this.texts[this.currentText][this.currentSub]+'</span>';
+      document.getElementById('pastText')!.innerHTML='<span style="line-height: 1.5">'+this.alreadyShown+'</span>' + '<span style="color:#63B5D1;">'+this.texts[this.currentText][this.currentSub]+'</span>';
       // document.getElementById('currentText')!.innerHTML=this.texts[this.currentText][this.currentSub];
     }
     // else if(this.currentText<this.texts.length-1){

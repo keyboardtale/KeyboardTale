@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'garamond-light'; /*a name to be used later*/
+    src: local('./src/assets/fonts/GARA.ttf')format("ttf"); /*URL to font*/
+}
+
+@font-face {
+    font-family: 'garamond-bold'; /*a name to be used later*/
+    src: local('.src/assets/fonts/GARABD.ttf'); /*URL to font*/
+}
 .content-container{
     width: 100%;
     display:flex;
@@ -5,12 +14,16 @@
     align-items: center;
 }
 .instrucciones-container{
-    max-width: 80%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .instrucciones{
-    font-family: 'EB Garamond', serif;
     font-size: x-large;
-    padding: 1em;
+    text-align: justify;
+    width: 100%;
+    padding-left: 2em;
 }
 .texto-container{
     width: 80%;
@@ -18,7 +31,7 @@
     text-align: justify;
 }
 .texto-negro{
-    font-family: 'EB Garamond', serif;
+    font-family: 'garamond-bold';
     font-size: x-large;
     padding: 1em;
 }
