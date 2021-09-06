@@ -1,3 +1,4 @@
+import { ConditionalExpr } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -40,12 +41,13 @@ export class HomeComponent implements OnInit {
       this.setMinValues();
       this.setSounds();
       this.setSubstringValues();
-      console.log(this.audios);
       document.addEventListener( 'keydown', (event) => {
-        this.processInput(event.key);
+        if (65<= event.keyCode && event.keyCode<=90 || 96 <= event.keyCode && event.keyCode<= 105) this.processInput(event.key);
       }, true);
     });
     document.getElementById('pastText')!.innerHTML='<span style="color:#63B5D1">'+this.texts[this.currentText][this.currentSub]+'</span>';
+    console.log(this.audios);
+    console.log(this.substringSound[0]  );
   }
   
   
@@ -56,7 +58,6 @@ export class HomeComponent implements OnInit {
           let newText = this.texts[t][s];
           const splitted = this.texts[t][s].split('<br>');
           if (splitted.length > 1) newText=splitted[1];
-          console.log(newText);
           if (65<=newText.charCodeAt(i) && newText.charCodeAt(i)<=90){ // mayusculas
             this.substringValue[t][s][newText.charCodeAt(i)-55]+=1;
           }else if (97<=this.texts[t][s].charCodeAt(i) && this.texts[t][s].charCodeAt(i)<=122){ // minusculas
@@ -65,9 +66,14 @@ export class HomeComponent implements OnInit {
             this.substringValue[t][s][newText.charCodeAt(i)-48]+=1;
           }
         }
+        for(let i:number=0; i<this.substringValue[t][s].length; i++){
+          console.log(this.substringValue[t][s]);
+          console.log(this.minValues[0][0]);
+          if (this.substringValue[t][s][i]===0) this.minValues[t][s][i]=0;
+          console.log(this.minValues[0][0]);
+        }
       }
     }
-    console.log('values: ',this.substringValue[0]);
   }
   
   async setSounds() {
@@ -78,7 +84,10 @@ export class HomeComponent implements OnInit {
       await fetch('/assets/texts/'+instances![i]).then( data => data.text() ).then( text => {
         let arrays = text.match(/\[(.*)\]/g);
         arrays!.forEach( value => {
-          this.substringSound[i][j]=this.textToValues(value);
+          this.substringSound[i][j]=[]
+          this.textToValues(value).forEach( value => {
+            this.substringSound[i][j].push(value-1);
+          });
           j++;
         });
       });
@@ -98,12 +107,13 @@ export class HomeComponent implements OnInit {
         });
       });
     }
+
   }
   
   textToValues(value: string): number[] {
     let valuesArray: number[] = [];
     value.split(/\[|\]/)[1].split(',').forEach(value => valuesArray.push(+value));
-    
+    //console.log('arreglo de valores: ', valuesArray);
     return valuesArray;
   }
 
@@ -143,14 +153,17 @@ export class HomeComponent implements OnInit {
     for(let i:number=0; i<text.length; i++){
       if (65<=text.charCodeAt(i) && text.charCodeAt(i)<=90){ // mayusculas
           this.substringInput[this.currentText][this.currentSub][text.charCodeAt(i)-55]+=1;
-          if (this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-55]!==0) this.audios[this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-55]].play();
+          if (this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-55]>=0) this.audios[this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-55]].play();
+          console.log('estoy tocando: ',this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-55]);
       }else if (97<=text.charCodeAt(i) && text.charCodeAt(i)<=122){ // minusculas
           this.substringInput[this.currentText][this.currentSub][text.charCodeAt(i)-87]+=1;
-          if (this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-87]!==0) this.audios[this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-87]].play();
-      }else if (48<=text.charCodeAt(i) && text.charCodeAt(i)<=57){ // numeros
+          if (this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-87]>=0) this.audios[this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-87]].play();
+          console.log('estoy tocando: ',this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-87]);
+        }else if (48<=text.charCodeAt(i) && text.charCodeAt(i)<=57){ // numeros
           this.substringInput[this.currentText][this.currentSub][text.charCodeAt(i)-48]+=1;
-          if (this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-48]!==0) this.audios[this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-48]].play();
-      }
+          if (this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-48]>=0) this.audios[this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-48]].play();
+          console.log('estoy tocando: ',this.substringSound[this.currentText][this.currentSub][text.charCodeAt(i)-48]);
+        }
     }
     this.playerInput=""
     this.calculateScore();
@@ -196,8 +209,8 @@ export class HomeComponent implements OnInit {
       ret=this.substringScore[this.currentText][this.currentSub][index]>=this.minValues[this.currentText][this.currentSub][index];
       index++;
     }
-    console.log('puntaje: ',this.substringScore[this.currentText][this.currentSub]);
-    console.log('minimos: ',this.minValues[this.currentText][this.currentSub]);
+    // console.log('puntaje: ',this.substringScore[this.currentText][this.currentSub]);
+    // console.log('minimos: ',this.minValues[this.currentText][this.currentSub]);
     if (ret) this.nextSub();
   }
 
